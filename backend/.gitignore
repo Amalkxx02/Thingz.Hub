@@ -13,8 +13,6 @@ crud/
 # Logs
 *.log
 
-dummy_esp.py/
-
 # IDE/editor files
 .vscode/
 .idea/
