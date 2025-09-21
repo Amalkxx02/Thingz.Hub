@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, JSON, UniqueConstraint
 from sqlalchemy.sql import func
-from database import Base, engine
+from database import Base, syncEngine
 
 class DevicesTable(Base):
     __tablename__ = "Devices_Table"
@@ -26,4 +26,4 @@ class SensorsTable(Base):
     __table_args__ = (
         UniqueConstraint("device_MAC", "sensors_name", name="unique_device_sensor"),
     )
-Base.metadata.create_all(engine)
+Base.metadata.create_all(syncEngine)
