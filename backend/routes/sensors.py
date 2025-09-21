@@ -27,10 +27,10 @@ async def get_db():           # Dependency generator function to provide a datab
 async def get_data(Sensors_Data: SensorsData, db : AsyncSession = Depends(get_db)): # Parameters- variable : pydantic model
     
     # Query the DevicesTable to find the first device matching the given MAC address and API key
-    device = select(DevicesTable).filter_by(device_MAC = Sensors_Data.device_MAC, api_key = Sensors_Data.api_key) # Check reciving device is registerd
-    result = await db.execute(device)
-    result.scalars().first()  
-    if not result:
+    statement = select(DevicesTable).filter_by(device_MAC = Sensors_Data.device_MAC, api_key = Sensors_Data.api_key) # Check reciving device is registerd
+    result = await db.execute(statement)
+    device = result.scalars().first()
+    if not device:
         raise HTTPException(status_code=401, detail="Unauthorized") # Report error if not registerd 
     
     # Create a new SensorsDataTable entry with device MAC and sensor data from the request
