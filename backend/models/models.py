@@ -2,6 +2,13 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, JSON, Uniq
 from sqlalchemy.sql import func
 from database import Base, syncEngine
 
+class UserTable(Base):
+    __tablename__ = "User_Table"
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)
+    user_name = Column(String, nullable=False)
+    user_email = Column(String, unique=True, nullable=False)
+    user_password = Column(String, nullable=False)
+
 class DevicesTable(Base):
     __tablename__ = "Devices_Table"
     id = Column(Integer, primary_key=True, autoincrement=True, index=True)

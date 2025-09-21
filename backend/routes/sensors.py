@@ -52,6 +52,8 @@ async def insert_data_to_SensorsTable(db:AsyncSession, device_MAC:str, data:dict
         await db.execute(insert_data) # Execute the insert statement
     await db.commit()# Commit the transaction to save it in the database
 
-@router.get("")
-def send_data():
-    pass
+@router.get("/sendData")
+async def send_data():
+    return{
+        "hellow":"world"
+    }
