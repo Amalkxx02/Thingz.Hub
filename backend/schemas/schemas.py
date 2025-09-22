@@ -1,13 +1,18 @@
 from pydantic import BaseModel
 from typing import Dict, Any
 
-class SensorsData(BaseModel):
-    device_MAC: str
+class DeviceSchema(BaseModel):
+    device_id: str
+    api_key: str
+
+
+class SensorSchema(BaseModel):
+    device_id: str
     api_key: str
     data: Dict[str, Any]
 
-class UsersData(BaseModel):
-    user_name: str
-    user_email: str
-    user_password: str
+class UserSchema(BaseModel):
+    name: str
+    email: str
+    password: str
     
