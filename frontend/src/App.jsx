@@ -4,11 +4,12 @@ import Auth from './pages/auth/Auth.jsx';
 import Dashboard from './pages/dashboard/Dashboard.jsx';
 
 
+
 function App() {
   return (
-        <div className="App">
-          <Dashboard />
-        </div>
+    <div>
+      <Dashboard />
+    </div>
   )
 }
 
