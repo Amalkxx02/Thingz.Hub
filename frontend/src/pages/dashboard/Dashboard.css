@@ -1,0 +1,32 @@
+/* Container for the entire dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f9;
+}
+
+/* Container for the sidebar and main content */
+.bottom-container {
+  display: flex;
+  background-color: #dfdfdf;
+  flex: 1; /* This makes the container take up all remaining vertical space */
+}
+
+/* Main content area */
+.main-content {
+  flex: 1; /* This makes the main content take up all remaining horizontal space */
+  padding: 2rem;
+  border-top-left-radius: 1rem;
+  background-color: #ffffff;
+  overflow-y: auto; /* Allows the content to scroll if it's too long */
+}
+
+/* Grid for the device cards */
+.device-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
