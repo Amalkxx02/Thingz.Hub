@@ -1,18 +1,33 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from typing import Dict, Any
 
-class DeviceSchema(BaseModel):
-    device_id: str
-    api_key: str
+class UserLoginSchema(BaseModel):
+    email: EmailStr
+    password: str
 
-
-class SensorSchema(BaseModel):
-    device_id: str
-    api_key: str
-    data: Dict[str, Any]
-
-class UserSchema(BaseModel):
+class UserCreateSchema(BaseModel):
     name: str
-    email: str
+    email: EmailStr
     password: str
     
+class RoomSchema(BaseModel):
+    user_id: str
+    name: str
+    color: str
+    
+class DeviceCreateSchema(BaseModel):
+    device_id: str
+    user_id: str
+    name: str 
+
+class DeviceCardSchema(BaseModel):
+    sensor_id: str
+    config: Dict[str, Any]
+
+class SensorRegisterSchema(BaseModel):
+    device_id: str
+    data: Dict[str, Any]
+    
+class SensorReadSchema(BaseModel):
+    device_id: str
+    data: Dict[str, Any]
