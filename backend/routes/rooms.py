@@ -23,13 +23,13 @@ async def insert_device_card(room: RoomSchema, db: AsyncSession = Depends(get_db
     room_entry = insert(Room).values(
     user_id = room.user_id,
     room_name = room.name,
-    color = room.color).on_conflict_do_nothing(index_elements=["user_id"]).returning(Room.user_id)
+    color = room.color).on_conflict_do_nothing(index_elements=["room_name"]).returning(Room.room_name)
     
     inserted_room = await db.execute(room_entry)
     row = inserted_room.fetchone()
 
     if row is None:
-        raise HTTPException(status_code=409, detail="device already exist")
+        raise HTTPException(status_code=409, detail="Room already exist")
     else:
         pass
     

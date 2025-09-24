@@ -7,7 +7,7 @@ from database import async_session_local
 from schemas.schemas import UserCreateSchema
 from models.models import User
 
-router = APIRouter(prefix= "/usersauth", tags=["usersauth"])
+router = APIRouter(prefix= "/user", tags=["user"])
 
 async def get_db():
     db = async_session_local()

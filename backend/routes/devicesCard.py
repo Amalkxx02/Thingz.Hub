@@ -27,7 +27,7 @@ async def insert_device_card(device_card: DeviceCardSchema, db: AsyncSession = D
     row = inserted_device_card.fetchone()
 
     if row is None:
-        raise HTTPException(status_code=409, detail="card already exist")
+        raise HTTPException(status_code=409, detail="Card already exist")
     else:
         pass
     

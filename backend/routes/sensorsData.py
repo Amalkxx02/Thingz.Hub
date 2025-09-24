@@ -7,11 +7,11 @@ from schemas.schemas import SensorReadSchema
 from models.models import SensorData,Device
 from database import async_session_local
 
-router = APIRouter(prefix="/sensorsData", tags=["sensors"])
+router = APIRouter(prefix="/sensorData", tags=["sensors"])
 
 async def get_db():
 
-    db = async_session_local() 
+    db = async_session_local()
     try:
         yield db
     finally:

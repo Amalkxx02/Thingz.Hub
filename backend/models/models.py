@@ -15,7 +15,7 @@ class Room(Base):
     __tablename__ = "rooms"
     room_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.user_id", ondelete="CASCADE"), nullable=False)
-    room_name = Column(String, nullable=False)
+    room_name = Column(String,unique=True, nullable=False)
     # room config
     color = Column(String, nullable=False)
 
