@@ -34,3 +34,10 @@ async def insert_sensor_data(sensor_data: SensorReadSchema, db : AsyncSession = 
 
     print(f"Received data from {sensor_data.device_id}: {sensor_data.data}")
     return {"status": "ok"}
+
+@router.get("/get")
+async def get_sensor_data(db: AsyncSession = Depends(get_db)):
+    sensor_query = select(SensorData.id,SensorData.data)
+    query_result = await db.execute(sensor_query)
+    sensors = query_result.all()
+    return[{"id": r[0],"data":r[1]} for r in sensors]

@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { signUp } from '../../api/auth';
+//import { signUp } from '../../api/auth';
 import './FormStyles.css'; // Import the shared CSS file
 
 const SignupForm = ({onToggeleView}) => {

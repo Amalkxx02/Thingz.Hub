@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { login } from '../../api/auth.js';
+//import { login } from '../../api/auth.js';
 import './FormStyles.css'; // Import the shared CSS file
 
 const LoginForm = ({onToggeleView}) => {
@@ -14,18 +14,18 @@ const LoginForm = ({onToggeleView}) => {
     
     try {
       // Call the login function and wait for the response
-      const data = await login(email, password);
+      //const data = await login(email, password);
       
       // Handle a successful login
-      console.log('Login successful:', data);
-      alert('Login successful!');
+      //console.log('Login successful:', data);
+      //alert('Login successful!');
       
       // You can redirect the user or perform other actions here
       
     } catch (error) {
       // Handle a failed login (e.g., display an error message)
-      console.error('Login error:', error.message);
-      alert(error.message);
+      //console.error('Login error:', error.message);
+      //alert(error.message);
     }
   };
   return (

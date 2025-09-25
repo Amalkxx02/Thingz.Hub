@@ -1,3 +1,4 @@
+/*
 export async function login(email,password) {
     const response = await fetch('http://127.0.0.1:8000/usersauth',
         {
@@ -8,6 +9,7 @@ export async function login(email,password) {
     if (!response.ok) throw new Error('login failed'); 
     return await response.json();
 }
+
 export async function signUp(name,email,password) {
     const response = await fetch('http://127.0.0.1:8000/usersauth',
         {
@@ -18,3 +20,6 @@ export async function signUp(name,email,password) {
     if(!response.ok) throw new Error('Sign up failed');
     return await response.json();
 }
+*/
+
+
