@@ -1,0 +1,29 @@
+.input {
+  width: 100%;
+  padding: .7rem;
+  background-color: #ffffff;
+  border: 2px solid #72a4ff;
+  border-radius: .5rem;
+  color: #464646;
+}
+.input-error{
+    border-color:#ff3d3d;
+}
+.input-success{
+  border-color: #56ff64;
+}
+
+
+.input:focus {
+  outline: none;
+  border-color: #4099ff;
+}
+
+.input-error:focus {
+  outline: none;
+  border-color: red;
+}
+.input-success:focus {
+  outline: none;
+  border-color: rgb(0, 255, 0);
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { MdAdd, MdAccountCircle } from 'react-icons/md'
 import './CompStyle.css';
 
 const Header = () => {

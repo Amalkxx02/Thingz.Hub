@@ -1,0 +1,25 @@
+.toast{
+  position: fixed;
+  font-size: 1rem;
+  padding: .8rem 5rem;
+  border-radius: 2rem;  
+  left: 50%;
+  background-color: #ffffffa6;
+  transform: translateX(-50%);
+  animation: dropExpand .2s ease-out forwards;
+}
+@keyframes dropExpand{
+  0% {
+    top: 0px;
+    opacity: 0;
+  }
+  50% {
+    top: 10px;
+    opacity: .5;
+  }
+
+  100% {
+    top: 20px;
+    opacity: 1;
+  }
+}

@@ -1,7 +1,7 @@
 
 import './FormStyles.css'; // Import the shared CSS file
 
-const ForgotPasswordForm = ({onToggeleView}) => {
+const Forgot = ({onToggleView}) => {
   return (
     <div className="container">
       <h2 className="heading">Account</h2>
@@ -12,10 +12,10 @@ const ForgotPasswordForm = ({onToggeleView}) => {
         <button type="submit" className="button">
           Get OTP
         </button>
-        <a href="#" onClick={()=> onToggeleView('signIn')} className="link">Back to Sign in</a>
+        <a onClick={()=> onToggleView('signIn')} className="link">Back to Sign in</a>
       </form>
     </div>
   );
 };
 
-export default ForgotPasswordForm;
+export default Forgot;

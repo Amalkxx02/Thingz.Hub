@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MdSettings, MdAdd } from 'react-icons/md';
-import { fetchRoom } from '../../api/room.js';
+import { fetchRoom } from '../../apis/room.js';
 import './CompStyle.css';
 
 const Sidebar = ({setShowDiv}) => {

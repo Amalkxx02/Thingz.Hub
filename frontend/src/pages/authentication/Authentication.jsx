@@ -1,22 +1,22 @@
 import React,{useState} from 'react';
-import LoginForm from '../../components/authForms/LoginForm';
-import SignupFrom from '../../components/authForms/SignupForm';
-import ForgotPasswordForm from '../../components/authForms/ForgotPasswordForm';
-import './Auth.css';
+import SignupForm from '../../components/auth/Signup';
+import SigninForm from '../../components/auth/Signin';
+import Forgot from '../../components/auth/Forgot';
+import './Authentication.css';
 
-const Auth = () => {
+const Authentication = () => {
   const [currentView,setCurrentView] = useState('signIn');
 
   const renderView = () =>{
     switch (currentView) {
       case 'signIn':
-        return <LoginForm onToggeleView ={setCurrentView}/>;
+        return <SigninForm onToggleView ={setCurrentView}/>;
       case 'signUp':
-        return <SignupFrom onToggeleView ={setCurrentView}/>;
+        return <SignupForm onToggleView ={setCurrentView}/>;
       case 'forgot':
-        return <ForgotPasswordForm onToggeleView ={setCurrentView}/>;
+        return <Forgot onToggleView ={setCurrentView}/>;
       default:
-        return <SignupFrom onToggeleView ={setCurrentView}/>;
+        return <SignupForm onToggleView ={setCurrentView}/>;
     }
   };
   return (
@@ -33,4 +33,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default Authentication;
