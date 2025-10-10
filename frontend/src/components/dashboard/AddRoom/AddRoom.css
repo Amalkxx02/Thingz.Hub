@@ -1,0 +1,115 @@
+/* src/components/AddRoomForm/AddRoomForm.css */
+
+/* Main container and form styles */
+.add-room-container {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  width: 90%;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+/* Horizontally scrollable color swatch container */
+.color-swatch-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.color-swatch-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual color swatches */
+.color-swatch {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 25%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.selected {
+  border-color: #007bff;
+  transform: scale(1);
+}
+
+/* Button styles */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.close-btn {
+  background-color: #f0f0f0;
+  color: #555;
+}
+
+.close-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.add-btn {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.add-btn:hover {
+  background-color: #0056b3;
+}

@@ -6,7 +6,8 @@ venv/
 __pycache__/
 models/__pycache__/
 routes/__pycache__/
-schemsa/__pycache__/                                              
+schemsas/__pycache__/  
+                                        
 
 # Logs
 *.log

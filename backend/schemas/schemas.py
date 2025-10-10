@@ -1,33 +1,31 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Dict, Any
 
-class UserLoginSchema(BaseModel):
+class UserSignIn(BaseModel):
     email: EmailStr
-    password: str
+    password: str = Field(...,min_length=8)
 
-class UserCreateSchema(BaseModel):
-    name: str
+class UserSignUp(BaseModel):
+    username: str
     email: EmailStr
-    password: str
-    
-class RoomSchema(BaseModel):
-    user_id: str
-    name: str
-    color: str
-    
-class DeviceCreateSchema(BaseModel):
+    password: str = Field(...,min_length=8)
+
+class RoomAdd(BaseModel):
+    room_name: str
+    room_color: str
+
+class ThingCardAdd(BaseModel):
+    thing_id: int
+    thing_config: Dict[str, Any]
+
+class DeviceAdd(BaseModel):
     device_id: str
-    user_id: str
-    name: str 
+    device_name: str 
 
-class DeviceCardSchema(BaseModel):
-    sensor_id: str
-    config: Dict[str, Any]
-
-class SensorRegisterSchema(BaseModel):
+class SensorAdd(BaseModel):
     device_id: str
     data: Dict[str, Any]
     
-class SensorReadSchema(BaseModel):
+class SensorRead(BaseModel):
     device_id: str
     data: Dict[str, Any]

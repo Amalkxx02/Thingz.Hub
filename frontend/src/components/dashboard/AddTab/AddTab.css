@@ -1,0 +1,16 @@
+
+.add-option {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.add-option:hover {
+  background-color: #f0f0f0;
+}
+
+.add-option-icon {
+  margin-right: 8px;
+}

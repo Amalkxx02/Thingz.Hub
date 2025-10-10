@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/Routes/ProtectedRoute.jsx";
 import Authentication from "./pages/authentication/Authentication.jsx";
 import Dashboard from "./pages/dashboard/Dashboard.jsx";
 
@@ -8,7 +9,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Authentication />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
