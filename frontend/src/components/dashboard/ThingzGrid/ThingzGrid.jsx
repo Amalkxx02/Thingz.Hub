@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getThingzCard } from "../../../apis/thingCardApi";
+import { getUserThingCard } from "../../../apis/userThingCardApi";
 import { getSensorData } from "../../../apis/sensorApi";
 import "./ThingzGrid.css";
 
@@ -10,7 +10,7 @@ const ThingzGrid = ({ userId }) => {
   useEffect(() => {
     const fetchAvailableThingzCard = async () => {
       try {
-        const card = await getThingzCard(userId);
+        const card = await getUserThingCard(userId);
         setCards(card);
       } catch (error) {
         console.error("Error fetching cards list:", error);

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import InputField from "../../../common/inputField/InputField";
-import "../AddThingCard.css";
+import "../AddUserThingCard.css";
 
-const sensorConfig = ({ setThingConfig }) => {
+const SensorConfiguration = ({ setThingConfig }) => {
   const [config, setConfig] = useState({
     sensorName: "",
     sensorMin: "",
@@ -28,4 +28,4 @@ const sensorConfig = ({ setThingConfig }) => {
   );
 };
 
-export default sensorConfig;
+export default SensorConfiguration;

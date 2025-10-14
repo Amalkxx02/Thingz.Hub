@@ -1,37 +1,44 @@
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: .5rem;
-  min-height: 40px;
-  min-width: 100px;
-  background-color: #ffffff;
-  border: 1px solid #a0a0a0;
-  border-radius: 1rem;
-  box-shadow: 2px 5px 2px rgba(137, 137, 137, 0.6);
-  color: #464646;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+/*
+ * Base styles and globals, assuming a Tailwind setup.
+ * The core logic will be in component classes below.
+ */
+@import "tailwindcss";
 
 
-.button:disabled {
-  background-color: #ffaeae;
-  cursor: not-allowed;
-}
-
-/* The spinner animation */
-.spinner {
-  width: 15px;
-  height: 15px;
-  border: 2px solid rgb(0, 217, 255);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 0.8s ease-in-out infinite;
-}
 
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
     transform: rotate(360deg);
   }
+}
+
+.btn {
+  @apply 
+    flex items-center justify-center gap-2
+    px-4 py-2
+    min-h-[40px] min-w-[100px]
+    font-medium text-gray-800
+    bg-gray-100 border border-gray-300
+    rounded-xl
+    shadow-sm
+    transition-all duration-200 ease-in-out
+    hover:bg-gray-200
+    active:bg-gray-300
+    focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-1;
+}
+
+.btn:disabled {
+  @apply 
+    bg-gray-100 text-gray-400 border-gray-200
+    cursor-not-allowed shadow-none opacity-60;
+}
+
+.spinner {
+  @apply 
+    w-[16px] h-[16px]
+    border-2 border-solid border-blue-500 border-t-transparent
+    rounded-full animate-spin;
 }

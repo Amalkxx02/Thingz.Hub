@@ -6,7 +6,7 @@ import Button from "../../common/Button/Button";
 import useApiSubmission from "../../hooks/useApiSubmission";
 import "./AddDevice.css";
 
-const AddDevice = ({setTab, userId}) => {
+const AddDevice = ({ setTab, userId }) => {
   const deviceRequest = useApiSubmission();
   const [uuid] = useState(uuidv4());
   const [deviceName, setDeviceName] = useState("");
@@ -17,7 +17,7 @@ const AddDevice = ({setTab, userId}) => {
       device_id: uuid,
       device_name: deviceName,
     };
-    deviceRequest.execute(addDevice, deviceData, userId);
+    deviceRequest.execute(addDevice, userId, deviceData);
   };
 
   return (
@@ -43,8 +43,10 @@ const AddDevice = ({setTab, userId}) => {
         </p>
 
         <div className="uuid-buttons">
-          <button className="btn close-btn" onClick={()=>setTab('')}>Close</button>
-          <Button type="submit" loading={deviceRequest.loading}>
+          <Button onClick={() => setTab("")}>
+            Close
+          </Button>
+          <Button type="submit" isLoading={deviceRequest.loading}>
             Add
           </Button>
         </div>

@@ -1,7 +1,7 @@
 import "./InputField.css";
 
 const InputField = ({ type, value, placeholder, onChange,...rest }) => {
-  let inputConfig = {
+  const inputConfig = {
     "f-name": { type: "text", placeholder: "First Name", required: true },
     "s-name": { type: "text", placeholder: "Second Name" },
     "u-name": { type: "text", placeholder: "User Name", required: true },

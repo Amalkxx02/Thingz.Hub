@@ -10,14 +10,14 @@ const AddRoom = ({ setTab, setRefresh, userId }) => {
   const [roomName, setRoomName] = useState("");
 
   const predefinedColors = [
-    "#b5d5ff", // Light Blue
-    "#c7e9b4", // Light Green
-    "#fff0b5", // Light Yellow
-    "#ffb5b5", // Light Red
-    "#d1b5ff", // Light Purple
-    "#b5fff0", // Cyan
-    "#ffe0b5", // Orange
-    "#e0e0e0", // Light Gray
+    "#b5d5ff6b", // Light Blue
+    "#c7e9b46b", // Light Green
+    "#fff0b56b", // Light Yellow
+    "#ffb5b56b", // Light Red
+    "#d1b5ff6b", // Light Purple
+    "#b5fff06b", // Cyan
+    "#ffe0b56b", // Orange
+    "#e0e0e06b", // Light Gray
   ];
   const [roomColor, setRoomColor] = useState(predefinedColors[0]);
 
@@ -28,7 +28,7 @@ const AddRoom = ({ setTab, setRefresh, userId }) => {
       room_name: roomName,
       room_color: roomColor,
     };
-    roomRequest.execute(addRoom, roomData, userId);
+    roomRequest.execute(addRoom, userId, roomData);
   };
 
   return (
@@ -65,7 +65,7 @@ const AddRoom = ({ setTab, setRefresh, userId }) => {
           <Button type="button" onClick={()=> {setTab(''); setRefresh(true);}}>
             Close
           </Button>
-          <Button type="submit" loading={roomRequest.loading}>
+          <Button type="submit" isLoading={roomRequest.loading}>
             Add
           </Button>
         </div>

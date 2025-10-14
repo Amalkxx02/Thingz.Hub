@@ -9,13 +9,13 @@ const Sidebar = ({ setTab, refresh, setRefresh, userId }) => {
   const [selected, setSelected] = useState("all_device");
 
   const fetchAvailableRoom = async () => {
-    try {
-      const rooms = await getRoom(userId);
-      setRooms(rooms);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+      try {
+        const rooms = await getRoom(userId);
+        setRooms(rooms);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   useEffect(() => {
     fetchAvailableRoom();
@@ -45,14 +45,14 @@ const Sidebar = ({ setTab, refresh, setRefresh, userId }) => {
       <div className="Sidebar__roomList">
         {rooms.map((room) => (
           <div
-            key={room.id}
+            key={room.room_id}
             className={`Sidebar__item Sidebar__item--primary ${
-              selected === room.name ? "Sidebar__item--selected" : ""
+              selected === room.room_name ? "Sidebar__item--selected" : ""
             }`}
-            onClick={() => setSelected(room.name)}
-            style={{ backgroundColor: room.color }}
+            onClick={() => setSelected(room.room_name)}
+            style={{ backgroundColor: room.room_color }}
           >
-            {room.name}
+            {room.room_name}
           </div>
         ))}
       </div>

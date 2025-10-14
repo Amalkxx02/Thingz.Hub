@@ -42,9 +42,9 @@ const SignupForm = ({ onToggleView }) => {
   const onSubmitSignup = async (e) => {
     e.preventDefault();
     const userData = {
-      username,
-      email: validation.eValue,
-      password: validation.pValue,
+      user_name:username,
+      user_email: validation.eValue,
+      user_password: validation.pValue,
     };
     signupRequest.execute(signUp, userData);
   };
@@ -98,7 +98,7 @@ const SignupForm = ({ onToggleView }) => {
             }
           />
         </div>
-        <Button type="submit" loading={signupRequest.loading} disabled={isFormInvalid}>
+        <Button type="submit" isLoading={signupRequest.loading} isDisabled={isFormInvalid}>
           Sign Up
         </Button>
         <a onClick={() => onToggleView("signIn")} className="link">

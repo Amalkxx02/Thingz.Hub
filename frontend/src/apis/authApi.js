@@ -1,5 +1,5 @@
 export async function signUp(userData) {
-  const response = await fetch("http://127.0.0.1:8000/auth/signup", {
+  const response = await fetch("http://127.0.0.1:8000/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
@@ -10,7 +10,7 @@ export async function signUp(userData) {
 }
 
 export async function signIn(userData) {
-  const response = await fetch("http://127.0.0.1:8000/auth/signin", {
+  const response = await fetch("http://127.0.0.1:8000/api/auth/signin", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),

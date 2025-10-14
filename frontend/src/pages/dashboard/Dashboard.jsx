@@ -4,8 +4,7 @@ import Sidebar from "../../layout/sidebar/Sidebar.jsx";
 
 import AddRoom from "../../components/dashboard/AddRoom/AddRoom.jsx";
 import AddDevice from "../../components/dashboard/AddDevice/AddDevice.jsx";
-import AddThingCard from "../../components/dashboard/AddThingCard/AddThingCard.jsx";
-import ThingzGrid from "../../components/dashboard/ThingzGrid/ThingzGrid.jsx";
+import AddUserThingCard from "../../components/dashboard/AddUserThingCard/AddUserThingCard.jsx";
 
 import "./Dashboard.css"; // Importing the CSS file
 
@@ -14,10 +13,11 @@ const Dashboard = () => {
   const [refresh,setRefresh] = useState(false)
   const [userId] = useState(localStorage.getItem("user_id"));
 
+
   const tabComponents = {
     "Add Room": () => <AddRoom setTab={setTab} setRefresh={setRefresh} userId={userId} />,
     "Add Device": () => <AddDevice setTab={setTab} userId={userId} />,
-    "Add Thing Card": () => <AddThingCard setTab={setTab} userId={userId} />,
+    "Add Thing Card": () => <AddUserThingCard setTab={setTab} userId={userId} />,
   };
 
   return (
@@ -29,7 +29,7 @@ const Dashboard = () => {
       <div className="main-content">
         <Header />
         <div className="grid-container">
-          <ThingzGrid userId={userId}/>
+          {/*<ThingzGrid userId={userId}/>*/}
         </div>
       </div>
     </div>

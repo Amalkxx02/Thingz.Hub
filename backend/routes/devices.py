@@ -1,39 +1,42 @@
-from fastapi import APIRouter,HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.future import select
-
-from app.database import async_session_local
+from uuid import UUID
 from schemas.schemas import DeviceAdd
-from models.models import Device,User
+from models.models import Device
+from utils.user_utils import user_check
+from utils.database_utils import get_db
 
-router = APIRouter(prefix= "/device", tags=["device"])
+router = APIRouter(prefix="/api/user/{user_id}/devices", tags=["device"])
 
-async def get_db():
-    db = async_session_local()
-    try:
-        yield db
-    finally:
-        await db.close()
 
-@router.post("/post")
-async def register_user(user_id: str, device: DeviceAdd, db: AsyncSession = Depends(get_db)):
+@router.post("")
+async def add_device_for_user(
+    user_id: UUID, device: DeviceAdd, db: AsyncSession = Depends(get_db)
+):
 
-    user = await db.scalar(select(User).where(User.user_id == user_id))
-    if not user:
-        raise HTTPException(status_code=409, detail="The user not exist")
+    user = await user_check(user_id, db)
+    if user is None:
+        raise HTTPException(
+            status_code=409, detail="The user does not exist. It is a illegal move"
+        )
 
-    query = insert(Device).values(
-        device_id = device.device_id,
-        user_id = user_id,
-        device_name = device.device_name).on_conflict_do_nothing(index_elements=["device_id"]).returning(Device.device_id)
-    
-    result= await db.execute(query)
-    row = result.fetchone()
+    query = (
+        insert(Device)
+        .values(
+            user_id=user_id, device_id=device.device_id, device_name=device.device_name
+        )
+        .on_conflict_do_nothing(index_elements=["device_id"])
+        .returning(Device.device_name)
+    )
+
+    result = await db.execute(query)
+    row = result.scalar()
 
     if row is None:
-        raise HTTPException(status_code=409, detail="device already exist")
-    
+        raise HTTPException(status_code=409, detail="The device already exist")
+
     await db.commit()
-    return{"status":"ok"}
+
+    return {"message": "Device added successfully"}

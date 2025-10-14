@@ -3,7 +3,6 @@
 .card-form-container {
   background-color: #fff;
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
   padding: 32px;
   width: 100%;
   max-width: 500px;
@@ -37,7 +36,7 @@ h3 {
 
 /* Inputs & dropdowns */
 select,
-input[type="number"] {
+input {
   width: 100%;
   padding: 10px 12px;
   border-radius: 8px;
@@ -45,11 +44,11 @@ input[type="number"] {
   font-size: 16px;
   box-sizing: border-box;
   transition: all 0.25s;
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 
 select:focus,
-input[type="number"]:focus {
+input:focus {
   outline: none;
   border-color: #1a73e8;
   box-shadow: 0 0 4px rgba(26, 115, 232, 0.3);
@@ -97,44 +96,6 @@ input[type="number"]:focus {
   justify-content: flex-end;
   gap: 12px;
   margin-top: 24px;
-}
-
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.save-button {
-  background-color: #1a73e8;
-  color: #fff;
-}
-
-.save-button:hover {
-  background-color: #1664c7;
-  transform: translateY(-2px);
-}
-.clear-button{
-  background-color: #e81a1a;
-  color: #fff;
-}
-
-.clear-button:hover {
-  background-color: #c71616;
-  transform: translateY(-2px);
-}
-
-.cancel-button {
-  background-color: #f0f0f0;
-  color: #555;
-}
-
-.cancel-button:hover {
-  background-color: #dcdcdc;
-  transform: translateY(-2px);
 }
 
 /* Scrollbar for overflow if needed */
