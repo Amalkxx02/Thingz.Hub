@@ -138,7 +138,7 @@ class UserThingCard(Base):
     
     """ Represents a dashboard card for a user's Thing. """
     
-    __tablename__ = "User_things_Cards"
+    __tablename__ = "User_Things_Cards"
     card_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
 
     user_id = Column(
@@ -148,7 +148,7 @@ class UserThingCard(Base):
     )
     thing_id = Column(
         Integer,
-        ForeignKey("things.thing_id", ondelete="CASCADE"),
+        ForeignKey("Things.thing_id", ondelete="CASCADE"),
         nullable=False,
         unique=True, # User can only create a card for a thing one time
     )
