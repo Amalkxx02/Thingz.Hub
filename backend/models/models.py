@@ -11,12 +11,12 @@ Tables:
 - Rooms: Logical grouping of Things (user's room setup).(currently not included)
 
 Relationships:
--User → Devices → things
--User → Rooms
--Things ↔ User_Things_Cards
+- User → Devices → things
+- User → Rooms
+- Things ↔ User_Things_Cards
 
 Notes:
--Future:    Need to implement room. For now it disabled.
+- Future:   Need to implement room. For now it disabled.
             May need to add some new columns.
 """
 
