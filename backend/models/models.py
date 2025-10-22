@@ -38,7 +38,7 @@ from sqlalchemy.orm import declarative_base, relationship
 
 from sqlalchemy.sql import func
 
-from sqlalchemy.dialects.postgresql import UUID 
+from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 sync_database_url = "postgresql+psycopg2://iot_admin:1234@localhost/iot_dashboard"
@@ -47,14 +47,13 @@ Base = declarative_base()
 
 
 class User(Base):
-    
-    """ Represents a user account in the IoT Dashboard system. """
-    
+    """Represents a user account in the IoT Dashboard system."""
+
     __tablename__ = "Users"
     user_id = Column(
         UUID(as_uuid=True),
         primary_key=True,
-        default=uuid.uuid4, # Generate a random uuid
+        default=uuid.uuid4,  # Generate a random uuid
         nullable=False,
         index=True,
     )
@@ -74,7 +73,7 @@ class User(Base):
         - user_things_cards: UI cards representing the user's chosen Things.
     """
     devices = relationship("Device", back_populates="user")
-    #rooms = relationship("Room", back_populates="user")
+    # rooms = relationship("Room", back_populates="user")
     user_things_cards = relationship("UserThingCard", back_populates="user")
 
 
@@ -83,6 +82,7 @@ class Device(Base):
     Represents a physical IoT device linked to a user.
     Each device can host multiple Things (sensors or actuators).
     """
+
     __tablename__ = "Devices"
     device_id = Column(
         UUID(as_uuid=True),
@@ -102,7 +102,9 @@ class Device(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     __table_args__ = (
-        UniqueConstraint("user_id","device_name", name="unique_device_name_for_each_user"),
+        UniqueConstraint(
+            "user_id", "device_name", name="unique_device_name_for_each_user"
+        ),
     )
 
     things = relationship("Thing", back_populates="device")
@@ -110,8 +112,7 @@ class Device(Base):
 
 
 class Thing(Base):
-
-    """ Represents an individual Thing (sensor or actuator) on a device. """
+    """Represents an individual Thing (sensor or actuator) on a device."""
 
     __tablename__ = "Things"
     thing_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
@@ -135,9 +136,8 @@ class Thing(Base):
 
 
 class UserThingCard(Base):
-    
-    """ Represents a dashboard card for a user's Thing. """
-    
+    """Represents a dashboard card for a user's Thing."""
+
     __tablename__ = "User_Things_Cards"
     card_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
 
@@ -150,7 +150,7 @@ class UserThingCard(Base):
         Integer,
         ForeignKey("Things.thing_id", ondelete="CASCADE"),
         nullable=False,
-        unique=True, # User can only create a card for a thing one time
+        unique=True,  # User can only create a card for a thing one time
     )
     """
     Each card is linked to one Thing and stores custom configuration
@@ -165,6 +165,7 @@ class UserThingCard(Base):
 
     user = relationship("User", back_populates="user_things_cards")
     thing = relationship("Thing", back_populates="user_thing_card")
+
 
 """
 Room is for future will update later
