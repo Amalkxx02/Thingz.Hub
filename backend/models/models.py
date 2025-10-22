@@ -6,14 +6,14 @@ Defines SQLAlchemy ORM models for the IoT Dashboard system.
 Tables:
 - Users: Stores user credentials and profile data. uuid used to generate user_id
 - Devices: IoT devices registered under each user. uuid used to generate device_id
-- Thingz: Individual sensors or actuators associated with devices.
-- User_Thingz_Cards: UI cards on user dashboards for displaying or controlling Things.
+- things: Individual sensors or actuators associated with devices.
+- User_things_Cards: UI cards on user dashboards for displaying or controlling Things.
 - Rooms: Logical grouping of Things (user's room setup).(currently not included)
 
 Relationships:
-User → Devices → Thingz
+User → Devices → things
 User → Rooms
-Thingz ↔ User_Thingz_Cards
+things ↔ User_things_Cards
 
 /************FUTURE************/
 add __repr__ for easier debug
@@ -71,11 +71,11 @@ class User(Base):
     Relationships:
         - devices: All IoT devices registered by this user.
         - rooms: Logical room groupings created by the user.(currently not)
-        - user_thingz_cards: UI cards representing the user's chosen Things.
+        - user_things_cards: UI cards representing the user's chosen Things.
     """
     devices = relationship("Device", back_populates="user")
     #rooms = relationship("Room", back_populates="user")
-    user_thingz_cards = relationship("UserThingCard", back_populates="user")
+    user_things_cards = relationship("UserThingCard", back_populates="user")
 
 
 class Device(Base):
@@ -105,7 +105,7 @@ class Device(Base):
         UniqueConstraint("user_id","device_name", name="unique_device_name_for_each_user"),
     )
 
-    thingz = relationship("Thing", back_populates="device")
+    things = relationship("Thing", back_populates="device")
     user = relationship("User", back_populates="devices")
 
 
@@ -113,7 +113,7 @@ class Thing(Base):
 
     """ Represents an individual Thing (sensor or actuator) on a device. """
 
-    __tablename__ = "Thingz"
+    __tablename__ = "Things"
     thing_id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     device_id = Column(
         UUID(as_uuid=True),
@@ -123,7 +123,7 @@ class Thing(Base):
     thing_type = Column(String, nullable=False)
     thing_name = Column(String, nullable=False)
 
-    device = relationship("Device", back_populates="thingz")
+    device = relationship("Device", back_populates="things")
     user_thing_card = relationship("UserThingCard", back_populates="thing")
 
     __table_args__ = (
@@ -138,7 +138,7 @@ class UserThingCard(Base):
     
     """ Represents a dashboard card for a user's Thing. """
     
-    __tablename__ = "User_Thingz_Cards"
+    __tablename__ = "User_things_Cards"
     card_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
 
     user_id = Column(
@@ -148,7 +148,7 @@ class UserThingCard(Base):
     )
     thing_id = Column(
         Integer,
-        ForeignKey("Thingz.thing_id", ondelete="CASCADE"),
+        ForeignKey("things.thing_id", ondelete="CASCADE"),
         nullable=False,
         unique=True, # User can only create a card for a thing one time
     )
@@ -163,7 +163,7 @@ class UserThingCard(Base):
         UniqueConstraint("user_id", "thing_id", name="unique_card_user_card"),
     )
 
-    user = relationship("User", back_populates="user_thingz_cards")
+    user = relationship("User", back_populates="user_things_cards")
     thing = relationship("Thing", back_populates="user_thing_card")
 
 """
