@@ -6,18 +6,18 @@ Defines SQLAlchemy ORM models for the IoT Dashboard system.
 Tables:
 - Users: Stores user credentials and profile data. uuid used to generate user_id
 - Devices: IoT devices registered under each user. uuid used to generate device_id
-- things: Individual sensors or actuators associated with devices.
-- User_things_Cards: UI cards on user dashboards for displaying or controlling Things.
+- Things: Individual sensors or actuators associated with devices.
+- User_Things_Cards: UI cards on user dashboards for displaying or controlling Things.
 - Rooms: Logical grouping of Things (user's room setup).(currently not included)
 
 Relationships:
-User → Devices → things
-User → Rooms
-things ↔ User_things_Cards
+-User → Devices → things
+-User → Rooms
+-Things ↔ User_Things_Cards
 
-/************FUTURE************/
-add __repr__ for easier debug
-room implementation
+Notes:
+-Future:    Need to implement room. For now it disabled.
+            May need to add some new columns.
 """
 
 from sqlalchemy import (
