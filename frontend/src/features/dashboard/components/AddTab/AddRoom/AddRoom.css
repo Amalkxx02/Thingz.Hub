@@ -1,0 +1,66 @@
+/* src/components/AddRoomForm/AddRoomForm.css */
+
+/* Main container and form styles */
+.add-room-container {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+/* Horizontally scrollable color swatch container */
+.color-swatch-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.color-swatch-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual color swatches */
+.color-swatch {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 25%;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.selected {
+  border-color: #007bff;
+  transform: scale(1);
+}
+
+/* Button styles */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}

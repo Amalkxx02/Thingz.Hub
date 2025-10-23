@@ -1,6 +1,6 @@
 export async function addUserThingCard(thingData, userId) {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/user/${userId}/userThingzCards`,
+    `http://127.0.0.1:8000/api/user/${userId}/userThingsCards`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -16,7 +16,7 @@ export async function addUserThingCard(thingData, userId) {
 }
 export async function getUserThingCard(userId) {
   const response = await fetch(
-    `http://127.0.0.1:8000/api/user/${userId}/userThingzCards`,
+    `http://127.0.0.1:8000/api/user/${userId}/userThingsCards`,
     {
       method: "GET",
     }
@@ -29,7 +29,7 @@ export async function getUserThingCard(userId) {
 }
 
 export async function getThingz(userId) {
-  const response = await fetch(`http://127.0.0.1:8000/api/thingz/${userId}`, {
+  const response = await fetch(`http://127.0.0.1:8000/api/things/${userId}`, {
     method: "GET",
   });
   const res = await response.json().catch(() => {});
