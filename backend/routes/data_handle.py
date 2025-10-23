@@ -1,0 +1,79 @@
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from sqlalchemy import select, and_
+
+from models.models import Thing
+from app.database import async_session_local
+
+from utils.user_utils import user_check
+from utils.thing_utils import device_check
+from typing import Dict
+from uuid import UUID
+import json
+
+router = APIRouter(prefix="/ws", tags=["websocket"])
+
+connected_client:Dict[UUID,WebSocket]={}
+connected_devices:Dict[UUID,WebSocket]={}
+
+
+@router.websocket("/client/{user_id}")
+async def data_handle_client(user_id: UUID, ws: WebSocket):
+    print("user:", user_id)
+    async with async_session_local() as db:
+        user = await user_check(user_id, db)
+        if user is None:
+            await ws.close() #status_code=404, detail="The user does not exist. It is a illegal move"
+            return
+
+    await ws.accept()
+    connected_client[user_id] = ws
+
+    try:
+        while True:
+            thing_data = await connected_client[user_id].receive_text()
+
+    except WebSocketDisconnect:
+        print("client disconnect")
+        connected_client.pop(user_id, None)
+
+
+@router.websocket("/device/{device_id}")
+async def data_handle_thing(device_id: UUID, ws: WebSocket):
+    async with async_session_local() as db:
+        device = await device_check(device_id, db)
+        if device is None:
+            await ws.close() #status_code=400, detail="The Device does not exist"
+            return
+
+    user_id = device.user_id
+    await ws.accept()
+    connected_devices[device_id] = ws
+
+    try:
+        while True:
+            row_data = await connected_devices[device_id].receive_text()
+            
+
+            if user_id in connected_client:
+
+                thing_data = json.loads(row_data)
+
+                async with async_session_local() as db:
+                    for key , value in thing_data.items():
+
+                        thing_id = await db.scalar(
+                            select(Thing.thing_id).where(
+                                and_(
+                                    Thing.device_id == device_id,
+                                    Thing.thing_name == key,
+                                )
+                            )
+                        )
+                        thing_payload = {
+                            str(thing_id): value
+                        }
+                        await connected_client[user_id].send_text(json.dumps(thing_payload))
+
+    except WebSocketDisconnect:
+        print("device disconnect")
+        connected_devices.pop(device_id, None)

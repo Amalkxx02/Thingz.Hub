@@ -1,17 +1,11 @@
 
-# Ignore virtual environment
-venv/
 
 # Python cache files
 __pycache__/
 models/__pycache__/
 routes/__pycache__/
-schemsas/__pycache__/  
+schemas/__pycache__/  
                                         
-
-# Logs
-*.log
-
 # IDE/editor files
 .vscode/
 .idea/

@@ -18,11 +18,11 @@ sqlalchemy = "==2.0.43"
 starlette = "==0.48.0"
 typing-inspection = "==0.4.1"
 typing-extensions = "==4.15.0"
-uvicorn = "==0.36.0"
 fastapi = "*"
 pydantic = {extras = ["email"], version = "*"}
 bcrypt = "*"
 python-jose = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
