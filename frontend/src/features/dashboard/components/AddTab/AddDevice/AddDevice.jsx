@@ -1,49 +1,36 @@
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import { addDevice } from "../../../apis/deviceApi";
-import InputField from "../../common/inputField/InputField";
-import Button from "../../common/Button/Button";
-import useApiSubmission from "../../hooks/useApiSubmission";
-import "./AddDevice.css";
+import InputText from "../../../../../shared/components/Input/InputText";
+import Button from "../../../../../shared/components/Button/Button";
+import useAddDevice from "./useAddDevice";
 
-const AddDevice = ({ setTab, userId }) => {
-  const [uuid] = useState(uuidv4());
-  const [deviceName, setDeviceName] = useState("");
-  const { success, execute, loading, error } = useApiSubmission();
-
-  const onSubmitAddDevice = async (e) => {
-    e.preventDefault();
-    const deviceData = {
-      device_id: uuid,
-      device_name: deviceName,
-    };
-    await execute(addDevice, userId, deviceData);
-  };
+const AddDevice = () => {
+  const { uuid, deviceName, loading, setDeviceName, onSubmitAddDevice } =
+    useAddDevice();
 
   return (
-    <div className="uuid-container p-8 w-full max-w-lg rounded-2xl">
-      <h2 className="uuid-heading">Add New Device </h2>
-      <form onSubmit={onSubmitAddDevice}>
-        <div className="form-group">
-          <label htmlFor="deviceName">Device Name</label>
-          <InputField
+    <div className="w-full">
+      <form className="flex flex-col gap-6" onSubmit={onSubmitAddDevice}>
+        <h2 className="text-center text-3xl font-bold">Add New Device </h2>
+        <div className="flex flex-col gap-1">
+          <label></label>
+          <InputText
             type="custom"
+            label="Device Name"
             value={deviceName}
-            placeholder="e.g., Living Room Thermostat"
+            placeholder="Device Name"
             onChange={setDeviceName}
           />
-          <label htmlFor="deviceId">Device ID</label>
-          <div className="uuid-text-box">
+        </div>
+        <div className="flex flex-col gap-1">
+          <label>Device UUID</label>
+          <div className="border-1 border-dashed bg-gray-50 p-3">
             <p className="uuid-text">{uuid}</p>
           </div>
+          <p className="text-xs text-gray-500">
+            Copy this UUID to the device JSON payload.
+          </p>
         </div>
 
-        <p className="pl-5 mb-6 text-xs text-gray-500">
-          Copy this UUID to the device JSON payload.
-        </p>
-
-        <div className="uuid-buttons">
-          <Button onClick={() => setTab("")}>Close</Button>
+        <div className="flex gap-10">
           <Button type="submit" isLoading={loading}>
             Add
           </Button>

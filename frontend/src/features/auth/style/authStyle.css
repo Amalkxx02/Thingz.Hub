@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+.auth-form{
+    @apply flex flex-col w-full gap-5;
+}
+.auth-form-title{
+    @apply text-center text-3xl font-bold text-gray-800;
+}
+.auth-form-button{
+     @apply w-2/3;
+}
+.auth-form-link{
+    @apply text-sm font-medium text-indigo-600 hover:text-indigo-500 transition duration-150;
+}

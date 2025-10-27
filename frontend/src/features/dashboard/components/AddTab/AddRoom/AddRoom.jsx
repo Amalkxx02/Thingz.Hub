@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { addRoom } from "../../../apis/roomApi";
-import InputField from "../../common/inputField/InputField";
-import Button from "../../common/Button/Button";
-import useApiSubmission from "../../hooks/useApiSubmission";
+import InputText from "../../../../../shared/components/Input/InputText";
+import Button from "../../../../../shared/components/Button/Button";
+import useApiSubmission from "../../../../../shared/hooks/useApiSubmission";
 import "./AddRoom.css";
 
-const AddRoom = ({ setTab, setRefresh, userId }) => {
+const AddRoom = () => {
   const { success, execute, loading, error } = useApiSubmission();
   const [roomName, setRoomName] = useState("");
 
@@ -28,7 +28,7 @@ const AddRoom = ({ setTab, setRefresh, userId }) => {
       room_name: roomName,
       room_color: roomColor,
     };
-    await execute(addRoom, userId, roomData);
+    await execute(addRoom,roomData);
   };
 
   return (
@@ -37,7 +37,7 @@ const AddRoom = ({ setTab, setRefresh, userId }) => {
       <form onSubmit={onSubmitAddRoom}>
         <div className="form-group">
           <label htmlFor="roomName">Room Name</label>
-          <InputField
+          <InputText
             type="custom"
             value={roomName}
             placeholder="e.g., Living Room, Kitchen"

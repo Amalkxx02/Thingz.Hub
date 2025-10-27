@@ -10,7 +10,7 @@ const passwordSchema = z
   .regex(/[0-9]/, "Password must contain at least one number")
   .regex(/[@$!%*?&]/, "Password must contain at least one special character");
 
-export default function useValidator(){
+export default function useValidator() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,13 +37,13 @@ export default function useValidator(){
     }
   };
 
-  const reset = ()=>{
-    setEmail('');
-    setPassword('');
+  const reset = () => {
+    setEmail("");
+    setPassword("");
 
-    setEError('');
-    setPError('');
-  }
+    setEError("");
+    setPError("");
+  };
   return {
     eValue: email,
     pValue: password,
@@ -53,4 +53,4 @@ export default function useValidator(){
     onEmailChange: handleEmailOnChange,
     onPasswordChange: handlePasswordOnChange,
   };
-};
+}
