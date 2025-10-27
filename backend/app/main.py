@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes import users, devices, things, data_handle, user_things_cards
+from routes import users, devices, things, data_handle,things_card
 
 app = FastAPI()
 
@@ -19,4 +19,4 @@ app.include_router(users.router)
 app.include_router(devices.router)
 #app.include_router(rooms.router)
 app.include_router(things.router)
-app.include_router(user_things_cards.router)
+app.include_router(things_card.router)

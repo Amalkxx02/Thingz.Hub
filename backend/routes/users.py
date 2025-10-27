@@ -80,8 +80,8 @@ async def signup_user(user_data: UserSignUp, db: AsyncSession = Depends(get_db))
     if user is not None:
         raise HTTPException(status_code=401, detail="Email already exists")
 
-    token = str(uuid4())
-    expires_at = datetime.utcnow() + timedelta(minutes=5)
+    token = uuid4()
+    expires_at = datetime.now() + timedelta(minutes=10)
 
     pending_user[token] = {
         "user_name": user_data.user_name,
@@ -93,6 +93,7 @@ async def signup_user(user_data: UserSignUp, db: AsyncSession = Depends(get_db))
     print(
         f"Verification link: http://localhost:8000/api/auth/verify_email?token={token}"
     )
+
 
     return {"status": 200, "message": "Verification link sent to your Email address"}
 
@@ -120,7 +121,7 @@ async def email_verification(token: UUID, db: AsyncSession = Depends(get_db)):
     if not pending:
         raise HTTPException(status_code=400, detail="Invalid or Expired token")
 
-    if pending["expires_at"] < datetime.utcnow():
+    if datetime.now() > pending["expires_at"] :
         del pending_user[token]
         raise HTTPException(status_code=400, detail="Token Expired")
 

@@ -56,7 +56,7 @@ class User(Base):
     # Relationships
     devices = relationship("Device", back_populates="user")
     # rooms = relationship("Room", back_populates="user")  # Future
-    user_things_cards = relationship("UserThingCard", back_populates="user")
+    things_card = relationship("ThingCard", back_populates="user")
 
 
 class Device(Base):
@@ -88,7 +88,7 @@ class Thing(Base):
 
     # Relationships
     device = relationship("Device", back_populates="things")
-    user_thing_card = relationship("UserThingCard", back_populates="thing")
+    thing_card = relationship("ThingCard", back_populates="thing")
 
     __table_args__ = (
         UniqueConstraint("device_id", "thing_name", name="unique_device_id_thing_name"),
@@ -96,10 +96,10 @@ class Thing(Base):
     )
 
 
-class UserThingCard(Base):
+class ThingCard(Base):
     """Represents a dashboard card for a user's Thing."""
 
-    __tablename__ = "User_Things_Cards"
+    __tablename__ = "Things_Card"
     card_id = Column(Integer, primary_key=True, autoincrement=True, index=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("Users.user_id", ondelete="CASCADE"), nullable=False)
     thing_id = Column(Integer, ForeignKey("Things.thing_id", ondelete="CASCADE"), nullable=False, unique=True)
@@ -110,8 +110,8 @@ class UserThingCard(Base):
     )
 
     # Relationships
-    user = relationship("User", back_populates="user_things_cards")
-    thing = relationship("Thing", back_populates="user_thing_card")
+    user = relationship("User", back_populates="things_card")
+    thing = relationship("Thing", back_populates="thing_card")
 
 
 """

@@ -27,13 +27,13 @@ from sqlalchemy import select
 from uuid import UUID
 
 from schemas.schemas import ThingCardAdd
-from models.models import UserThingCard
+from models.models import ThingCard
 from utils.user_utils import user_check
 from utils.database_utils import get_db, db_execution
 
 router = APIRouter(
-    prefix="/api/user/{user_id}/userThingsCards",
-    tags=["UserThingCard"]
+    prefix="/api/user/{user_id}/thingsCard",
+    tags=["ThingCard"]
 )
 
 
@@ -66,14 +66,14 @@ async def add_thing_card_for_user(
 
     # Insert card safely, ignoring duplicates
     query = (
-        insert(UserThingCard)
+        insert(ThingCard)
         .values(
             user_id=user_id,
             thing_id=thing_card.thing_id,
             config=thing_card.thing_config,
         )
         .on_conflict_do_nothing(index_elements=["user_id", "thing_id"])
-        .returning(UserThingCard)
+        .returning(ThingCard)
     )
 
     row = await db_execution(query, db)
@@ -105,8 +105,8 @@ async def get_thing_card_for_user(user_id: UUID, db: AsyncSession = Depends(get_
     await user_check(user_id, db)
 
     # Select all thing cards for the user
-    query = select(UserThingCard.thing_id, UserThingCard.config).where(
-        UserThingCard.user_id == user_id
+    query = select(ThingCard.thing_id, ThingCard.config).where(
+        ThingCard.user_id == user_id
     )
 
     rows = await db_execution(query, db, get_single_row=False)
