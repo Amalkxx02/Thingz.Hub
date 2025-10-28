@@ -56,24 +56,28 @@ async def add_thing_for_user(
     """
     # Validate device existence
     await device_check(device_id, db)
-    
+
     # Prepare batch insert values
     values = []
     for items in thing.things:
         if isinstance(items, Sensor):
             for sensor_name in items.sensors:
-                values.append({
-                    "device_id": device_id,
-                    "thing_type": "sensor",
-                    "thing_name": sensor_name,
-                })
+                values.append(
+                    {
+                        "device_id": device_id,
+                        "thing_type": "sensor",
+                        "thing_name": sensor_name,
+                    }
+                )
         elif isinstance(items, Actuator):
             for actuator_name in items.actuators:
-                values.append({
-                    "device_id": device_id,
-                    "thing_type": "actuator",
-                    "thing_name": actuator_name,
-                })
+                values.append(
+                    {
+                        "device_id": device_id,
+                        "thing_type": "actuator",
+                        "thing_name": actuator_name,
+                    }
+                )
 
     # Batch insert with conflict handling (ignore duplicates)
     query = (
@@ -88,8 +92,11 @@ async def add_thing_for_user(
     return {"status": "ok"}
 
 
-@router.get("/{jwt_key}")
-async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
+@router.get("")
+async def list_thing_for_user(
+    db: AsyncSession = Depends(get_db),
+    user_id=Depends(verify_access_token),
+):
     """
     List all things for a user's devices.
 
@@ -113,7 +120,6 @@ async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
             404 → User does not exist.
     """
     # Validate user existence
-    user_id = UUID(verify_access_token(jwt_key))
 
     # Query devices and their associated things grouped by type
     query = (
@@ -123,15 +129,19 @@ async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
                 "sensors",
                 func.json_agg(
                     func.json_build_object(
-                        "thing_id", Thing.thing_id,
-                        "thing_name", Thing.thing_name,
+                        "thing_id",
+                        Thing.thing_id,
+                        "thing_name",
+                        Thing.thing_name,
                     )
                 ).filter(Thing.thing_type == "sensor"),
                 "actuators",
                 func.json_agg(
                     func.json_build_object(
-                        "thing_id", Thing.thing_id,
-                        "thing_name", Thing.thing_name,
+                        "thing_id",
+                        Thing.thing_id,
+                        "thing_name",
+                        Thing.thing_name,
                     )
                 ).filter(Thing.thing_type == "actuator"),
             ).label("things"),

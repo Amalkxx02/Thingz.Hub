@@ -24,9 +24,8 @@ from schemas.schemas import DeviceAdd
 from models.models import Device
 from utils.jwt_utils import verify_access_token
 from utils.database_utils import get_db, db_execution
-from uuid import UUID
 
-router = APIRouter(prefix="/api/user/{jwt_key}/devices", tags=["device"])
+router = APIRouter(prefix="/api/user/devices", tags=["device"])
 
 
 @router.post(
@@ -35,7 +34,9 @@ router = APIRouter(prefix="/api/user/{jwt_key}/devices", tags=["device"])
     response_description="Device added confirmation",
 )
 async def add_device_for_user(
-    jwt_key: str, device: DeviceAdd, db: AsyncSession = Depends(get_db)
+    device: DeviceAdd,
+    db: AsyncSession = Depends(get_db),
+    user_id=Depends(verify_access_token),
 ):
     """
     Add a new device under a specific user.
@@ -68,9 +69,6 @@ async def add_device_for_user(
     - Replace `user_id` in path with JWT token to securely identify user.
     - Implement GET endpoint to list all devices for a user.
     """
-    # Verify that the user exists
-    user_id = UUID(verify_access_token(jwt_key))
-
     # Insert device safely (ignore duplicates)
     query = (
         insert(Device)

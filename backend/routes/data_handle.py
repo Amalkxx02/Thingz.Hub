@@ -4,7 +4,7 @@ from sqlalchemy import select, and_
 from models.models import Thing
 from app.database import async_session_local
 
-from utils.jwt_utils import verify_access_token
+from utils.jwt_utils import verify_access_token_ws
 from utils.thing_utils import device_check
 from typing import Dict
 from uuid import UUID
@@ -17,9 +17,11 @@ connected_devices: Dict[UUID, WebSocket] = {}
 thing: Dict[str, int] = {}
 
 
-@router.websocket("/client/{jwt_key}")
-async def data_handle_client(jwt_key: str, ws: WebSocket):
-    user_id = UUID(verify_access_token(jwt_key))
+@router.websocket("/client")
+async def data_handle_client(jwt_key:bytes,ws: WebSocket):
+    
+    user_id = UUID(verify_access_token_ws(jwt_key))
+
     if user_id is None:
         await ws.close()  # status_code=404, detail="The user does not exist. It is a illegal move"
         return
@@ -29,7 +31,7 @@ async def data_handle_client(jwt_key: str, ws: WebSocket):
 
     try:
         while True:
-            thing_data = await connected_client[user_id].receive_text()
+            thing_data = await connected_client[user_id].receive_json()
 
     except WebSocketDisconnect:
         print("client disconnect")
@@ -82,7 +84,7 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
                         thing_payload = {str(thing_id): value}
                 
 
-                await connected_client[user_id].send_text(json.dumps(thing_payload))
+                await connected_client[user_id].send_json(thing_payload)
 
     except WebSocketDisconnect:
         print("device disconnect")

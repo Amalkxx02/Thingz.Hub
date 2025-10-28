@@ -93,7 +93,6 @@ async def signup_user(user_data: UserSignUp, db: AsyncSession = Depends(get_db))
         f"Verification link: http://localhost:8000/api/auth/verify_email?token={token}"
     )
 
-
     return {"status": 200, "message": "Verification link sent to your Email address"}
 
 
@@ -120,7 +119,7 @@ async def email_verification(token: UUID, db: AsyncSession = Depends(get_db)):
     if not pending:
         raise HTTPException(status_code=400, detail="Invalid or Expired token")
 
-    if datetime.now() > pending["expires_at"] :
+    if datetime.now() > pending["expires_at"]:
         del pending_user[token]
         raise HTTPException(status_code=400, detail="Token Expired")
 
@@ -157,7 +156,7 @@ async def signin_user(user_data: UserSignIn, db: AsyncSession = Depends(get_db))
 
     if not pwd_check:
         raise HTTPException(status_code=401, detail="Email or Password doesn't match")
-    
+
     jwt = create_access_token(user.user_id)
 
     return {"jwt_key": jwt}
