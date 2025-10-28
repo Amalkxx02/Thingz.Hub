@@ -88,7 +88,7 @@ async def add_thing_for_user(
     return {"status": "ok"}
 
 
-@router.get("/{user_id}")
+@router.get("/{jwt_key}")
 async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
     """
     List all things for a user's devices.
@@ -113,7 +113,7 @@ async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
             404 → User does not exist.
     """
     # Validate user existence
-    user_id = verify_access_token(jwt_key)
+    user_id = UUID(verify_access_token(jwt_key))
 
     # Query devices and their associated things grouped by type
     query = (

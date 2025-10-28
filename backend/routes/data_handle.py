@@ -19,7 +19,7 @@ thing: Dict[str, int] = {}
 
 @router.websocket("/client/{jwt_key}")
 async def data_handle_client(jwt_key: str, ws: WebSocket):
-    user_id = verify_access_token(jwt_key)
+    user_id = UUID(verify_access_token(jwt_key))
     if user_id is None:
         await ws.close()  # status_code=404, detail="The user does not exist. It is a illegal move"
         return
@@ -45,13 +45,14 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
             return
 
     user_id = device.user_id
+    print(type(user_id))
     await ws.accept()
     connected_devices[device_id] = ws
 
     try:
         while True:
             row_data = await connected_devices[device_id].receive_text()
-            #print(connected_client[user_id])
+            
 
             if user_id in connected_client:
 

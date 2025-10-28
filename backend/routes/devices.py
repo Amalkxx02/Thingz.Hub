@@ -24,6 +24,7 @@ from schemas.schemas import DeviceAdd
 from models.models import Device
 from utils.jwt_utils import verify_access_token
 from utils.database_utils import get_db, db_execution
+from uuid import UUID
 
 router = APIRouter(prefix="/api/user/{jwt_key}/devices", tags=["device"])
 
@@ -68,7 +69,7 @@ async def add_device_for_user(
     - Implement GET endpoint to list all devices for a user.
     """
     # Verify that the user exists
-    user_id = verify_access_token(jwt_key)
+    user_id = UUID(verify_access_token(jwt_key))
 
     # Insert device safely (ignore duplicates)
     query = (

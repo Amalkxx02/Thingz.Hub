@@ -26,6 +26,7 @@ Notes:
 - Tokens expire after 5 minutes.
 
 Future Improvements:
+
 - Database-backed Pending Users:
     - Store pending user entries in a dedicated database table.
     - Allows token verification across multiple app instances and ensures persistence.
