@@ -13,9 +13,6 @@ Endpoints:
     - Returns structured JSON with sensors and actuators grouped per device.
 
 Notes:
-- Security: Currently, endpoints use raw user_id or device_id for identification.
-            This is NOT secure and should use JWT-based auth in production.
-
 - Future:
     - Add filtering by thing type.
     - Pagination for large device/thing lists.
@@ -30,7 +27,7 @@ from uuid import UUID
 
 from models.models import Device, Thing
 from schemas.schemas import ThingAdd, Sensor, Actuator
-from utils.user_utils import user_check
+from utils.jwt_utils import verify_access_token
 from utils.database_utils import get_db, db_execution
 from utils.thing_utils import device_check
 
@@ -92,7 +89,7 @@ async def add_thing_for_user(
 
 
 @router.get("/{user_id}")
-async def list_thing_for_user(user_id: UUID, db: AsyncSession = Depends(get_db)):
+async def list_thing_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
     """
     List all things for a user's devices.
 
@@ -116,7 +113,7 @@ async def list_thing_for_user(user_id: UUID, db: AsyncSession = Depends(get_db))
             404 → User does not exist.
     """
     # Validate user existence
-    await user_check(user_id, db)
+    user_id = verify_access_token(jwt_key)
 
     # Query devices and their associated things grouped by type
     query = (

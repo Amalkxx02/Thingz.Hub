@@ -12,9 +12,6 @@ Endpoints:
     - Fetches all thing cards for a user.
 
 Notes:
-- Security: Currently relies on the raw `user_id` in the path.
-            This is insecure and should be replaced with JWT-based auth in production.
-
 - Future:
     - Add update endpoint for modifying card configurations.
     - Add deletion endpoint for removing cards.
@@ -24,22 +21,22 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy import select
-from uuid import UUID
 
 from schemas.schemas import ThingCardAdd
 from models.models import ThingCard
-from utils.user_utils import user_check
+
 from utils.database_utils import get_db, db_execution
+from utils.jwt_utils import verify_access_token
 
 router = APIRouter(
-    prefix="/api/user/{user_id}/thingsCard",
+    prefix="/api/user/{jwt_key}/thingsCard",
     tags=["ThingCard"]
 )
 
 
 @router.post("")
 async def add_thing_card_for_user(
-    user_id: UUID, thing_card: ThingCardAdd, db: AsyncSession = Depends(get_db)
+    jwt_key: str, thing_card: ThingCardAdd, db: AsyncSession = Depends(get_db)
 ):
     """
     Add a new user "thing card".
@@ -62,7 +59,7 @@ async def add_thing_card_for_user(
             }
     """
     # Verify user existence
-    await user_check(user_id, db)
+    user_id = verify_access_token(jwt_key)
 
     # Insert card safely, ignoring duplicates
     query = (
@@ -85,7 +82,7 @@ async def add_thing_card_for_user(
 
 
 @router.get("")
-async def get_thing_card_for_user(user_id: UUID, db: AsyncSession = Depends(get_db)):
+async def get_thing_card_for_user(jwt_key: str, db: AsyncSession = Depends(get_db)):
     """
     Retrieve all thing cards for a specific user.
 
@@ -102,7 +99,7 @@ async def get_thing_card_for_user(user_id: UUID, db: AsyncSession = Depends(get_
             ]
     """
     # Verify user existence
-    await user_check(user_id, db)
+    user_id = verify_access_token(jwt_key)
 
     # Select all thing cards for the user
     query = select(ThingCard.thing_id, ThingCard.config).where(

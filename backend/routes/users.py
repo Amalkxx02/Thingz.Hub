@@ -26,9 +26,6 @@ Notes:
 - Tokens expire after 5 minutes.
 
 Future Improvements:
-- JWT Integration:
-    - Use JWTs for both email verification links and signin sessions.
-    - Include expiration claims, user_id, and token type in JWT payload.
 - Database-backed Pending Users:
     - Store pending user entries in a dedicated database table.
     - Allows token verification across multiple app instances and ensures persistence.
@@ -48,6 +45,7 @@ from schemas.schemas import UserSignUp, UserSignIn
 from utils.user_utils import user_verify, insert_user
 from utils.password_utils import password_hashing, password_check
 from utils.database_utils import get_db
+from utils.jwt_utils import create_access_token
 
 router = APIRouter(prefix="/api/auth", tags=["user"])
 
@@ -155,7 +153,10 @@ async def signin_user(user_data: UserSignIn, db: AsyncSession = Depends(get_db))
         raise HTTPException(status_code=401, detail="Email or Password doesn't match")
 
     pwd_check = password_check(user.user_password, user_data.user_password)
+
     if not pwd_check:
         raise HTTPException(status_code=401, detail="Email or Password doesn't match")
+    
+    jwt = create_access_token(user.user_id)
 
-    return {"user_id": user.user_id}
+    return {"jwt_key": jwt}

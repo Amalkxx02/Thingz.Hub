@@ -13,21 +13,19 @@ Notes:
 
 - Future:
     - Implement GET endpoint to fetch all devices for a user.
-    - Integrate JWT authentication to replace raw user_id path parameter.
     - Add optional metadata for devices (e.g., location, status).
 """
 
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.dialects.postgresql import insert
-from uuid import UUID
 
 from schemas.schemas import DeviceAdd
 from models.models import Device
-from utils.user_utils import user_check
+from utils.jwt_utils import verify_access_token
 from utils.database_utils import get_db, db_execution
 
-router = APIRouter(prefix="/api/user/{user_id}/devices", tags=["device"])
+router = APIRouter(prefix="/api/user/{jwt_key}/devices", tags=["device"])
 
 
 @router.post(
@@ -36,7 +34,7 @@ router = APIRouter(prefix="/api/user/{user_id}/devices", tags=["device"])
     response_description="Device added confirmation",
 )
 async def add_device_for_user(
-    user_id: UUID, device: DeviceAdd, db: AsyncSession = Depends(get_db)
+    jwt_key: str, device: DeviceAdd, db: AsyncSession = Depends(get_db)
 ):
     """
     Add a new device under a specific user.
@@ -70,7 +68,7 @@ async def add_device_for_user(
     - Implement GET endpoint to list all devices for a user.
     """
     # Verify that the user exists
-    await user_check(user_id, db)
+    user_id = verify_access_token(jwt_key)
 
     # Insert device safely (ignore duplicates)
     query = (

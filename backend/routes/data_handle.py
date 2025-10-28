@@ -4,7 +4,7 @@ from sqlalchemy import select, and_
 from models.models import Thing
 from app.database import async_session_local
 
-from utils.user_utils import user_check
+from utils.jwt_utils import verify_access_token
 from utils.thing_utils import device_check
 from typing import Dict
 from uuid import UUID
@@ -17,13 +17,12 @@ connected_devices: Dict[UUID, WebSocket] = {}
 thing: Dict[str, int] = {}
 
 
-@router.websocket("/client/{user_id}")
-async def data_handle_client(user_id: UUID, ws: WebSocket):
-    async with async_session_local() as db:
-        user = await user_check(user_id, db)
-        if user is None:
-            await ws.close()  # status_code=404, detail="The user does not exist. It is a illegal move"
-            return
+@router.websocket("/client/{jwt_key}")
+async def data_handle_client(jwt_key: str, ws: WebSocket):
+    user_id = verify_access_token(jwt_key)
+    if user_id is None:
+        await ws.close()  # status_code=404, detail="The user does not exist. It is a illegal move"
+        return
 
     await ws.accept()
     connected_client[user_id] = ws
@@ -52,6 +51,7 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
     try:
         while True:
             row_data = await connected_devices[device_id].receive_text()
+            #print(connected_client[user_id])
 
             if user_id in connected_client:
 
@@ -79,6 +79,7 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
                             thing_id = thing[thing_crypt]
 
                         thing_payload = {str(thing_id): value}
+                
 
                 await connected_client[user_id].send_text(json.dumps(thing_payload))
 
