@@ -1,5 +1,5 @@
 
-
+.env
 # Python cache files
 __pycache__/
 models/__pycache__/
