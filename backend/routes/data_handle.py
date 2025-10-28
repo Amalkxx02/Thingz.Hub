@@ -12,17 +12,17 @@ import json
 
 router = APIRouter(prefix="/ws", tags=["websocket"])
 
-connected_client:Dict[UUID,WebSocket]={}
-connected_devices:Dict[UUID,WebSocket]={}
+connected_client: Dict[UUID, WebSocket] = {}
+connected_devices: Dict[UUID, WebSocket] = {}
+thing: Dict[str, int] = {}
 
 
 @router.websocket("/client/{user_id}")
 async def data_handle_client(user_id: UUID, ws: WebSocket):
-    print("user:", user_id)
     async with async_session_local() as db:
         user = await user_check(user_id, db)
         if user is None:
-            await ws.close() #status_code=404, detail="The user does not exist. It is a illegal move"
+            await ws.close()  # status_code=404, detail="The user does not exist. It is a illegal move"
             return
 
     await ws.accept()
@@ -42,7 +42,7 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
     async with async_session_local() as db:
         device = await device_check(device_id, db)
         if device is None:
-            await ws.close() #status_code=400, detail="The Device does not exist"
+            await ws.close()  # status_code=400, detail="The Device does not exist"
             return
 
     user_id = device.user_id
@@ -52,27 +52,35 @@ async def data_handle_thing(device_id: UUID, ws: WebSocket):
     try:
         while True:
             row_data = await connected_devices[device_id].receive_text()
-            
 
             if user_id in connected_client:
 
                 thing_data = json.loads(row_data)
-
                 async with async_session_local() as db:
-                    for key , value in thing_data.items():
 
-                        thing_id = await db.scalar(
-                            select(Thing.thing_id).where(
-                                and_(
-                                    Thing.device_id == device_id,
-                                    Thing.thing_name == key,
+                    for key, value in thing_data.items():
+
+                        thing_crypt = str(device_id) + "_" + str(key)
+
+                        thing_id = thing.setdefault(thing_crypt, 0)
+
+                        if not thing_id:
+
+                            thing_id = await db.scalar(
+                                select(Thing.thing_id).where(
+                                    and_(
+                                        Thing.device_id == device_id,
+                                        Thing.thing_name == key,
+                                    )
                                 )
                             )
-                        )
-                        thing_payload = {
-                            str(thing_id): value
-                        }
-                        await connected_client[user_id].send_text(json.dumps(thing_payload))
+                            thing[thing_crypt] = thing_id
+
+                            thing_id = thing[thing_crypt]
+
+                        thing_payload = {str(thing_id): value}
+
+                await connected_client[user_id].send_text(json.dumps(thing_payload))
 
     except WebSocketDisconnect:
         print("device disconnect")
